@@ -11,7 +11,7 @@ class Shelf extends Component {
         <div className="bookshelf-books">
           <ol className="books-grid">
             {
-              books.map((book, key) => <Book book={book} key={key} />)
+              books.map((book, key) => <Book book={book} key={key} updateBook={this.props.updateBook} />)
             }
           </ol>
         </div>
@@ -22,7 +22,8 @@ class Shelf extends Component {
 
 Shelf.propTypes = {
   name: PropTypes.string,
-  books: PropTypes.array
+  books: PropTypes.array,
+  updateBook: PropTypes.func
 };
 
 export default Shelf;

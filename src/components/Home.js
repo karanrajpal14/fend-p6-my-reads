@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import  Shelf from './Shelf';
-import { getAll } from '../BooksAPI';
+import { getAll, update } from '../BooksAPI';
 
 class Home extends Component {
   constructor () {
@@ -9,11 +9,22 @@ class Home extends Component {
     this.state = {
       books: []
     };
+    this.updateBook = this.updateBook.bind(this);
   }
   componentDidMount () {
     getAll()
     .then(res => {
       this.setState({ books: res });
+    });
+  }
+
+  updateBook (book, shelf) {
+    update(book, shelf)
+    .then(() => {
+      book.shelf = shelf;
+      this.setState({
+        books: this.state.books.filter(cur => cur.id !== book.id).concat([book])
+      })
     });
   }
 
@@ -27,9 +38,9 @@ class Home extends Component {
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
-        <Shelf name="Currently Reading" books={currentlyReading} />
-        <Shelf name="Read" books={read} />
-        <Shelf name="Want to read" books={wantToRead} />
+        <Shelf updateBook={this.updateBook} name="Currently Reading" books={currentlyReading} />
+        <Shelf updateBook={this.updateBook} name="Read" books={read} />
+        <Shelf updateBook={this.updateBook} name="Want to read" books={wantToRead} />
         <div className="open-search">
           <Link to="/search">Add a book</Link>
         </div>
