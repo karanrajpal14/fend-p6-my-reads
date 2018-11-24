@@ -1,24 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import Book from './Book';
 import PropTypes from 'prop-types';
 
-class Shelf extends Component {
-  render() {
-    const { name, books } = this.props;
-    return (
-      <div className="bookshelf">
-        <h2 className="bookshelf-title">{name}</h2>
-        <div className="bookshelf-books">
-          <ol className="books-grid">
-            {
-              books.map((book, key) => <Book book={book} key={key} updateBook={this.props.updateBook} />)
-            }
-          </ol>
-        </div>
-      </div>
-    );
-  }
-}
+const Shelf = ({ name, books, updateBook }) => (
+  <div className="bookshelf">
+    <h2 className="bookshelf-title">{name}</h2>
+    <div className="bookshelf-books">
+      <ol className="books-grid">
+        {
+          books.map((book, key) => <Book book={book} key={key} updateBook={updateBook} />)
+        }
+      </ol>
+    </div>
+  </div>);
 
 Shelf.propTypes = {
   name: PropTypes.string,
