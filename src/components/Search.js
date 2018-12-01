@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import Book from "./Book"
 import { Link } from "react-router-dom"
-import { getAll, search, update } from "../BooksAPI"
+import { search, update } from "../BooksAPI"
 
 class Search extends Component {
   constructor(props) {
@@ -16,19 +16,15 @@ class Search extends Component {
     this.updateBook = this.updateBook.bind(this)
   }
 
-  componentDidMount() {
-    getAll().then(res => {
-      this.setState({ books: res })
-    })
-  }
-
   updateQuery(query) {
     this.setState({ query }, this.makeQuery)
   }
 
   makeQuery() {
     const { query, books } = this.state
-    if (query.trim().length > 0) {
+    if (query.trim().length === 0) {
+      this.setState({ results: [] })
+    } else {
       search(query.trim()).then(res => {
         if (res && res.error) {
           this.setState({ results: [] })

@@ -1,20 +1,16 @@
 import React, { Component } from "react"
 import { Link } from "react-router-dom"
 import Shelf from "./Shelf"
-import { getAll, update } from "../BooksAPI"
+import PropTypes from "prop-types"
+import { update } from "../BooksAPI"
 
 class Home extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       books: []
     }
     this.updateBook = this.updateBook.bind(this)
-  }
-  componentDidMount() {
-    getAll().then(res => {
-      this.setState({ books: res })
-    })
   }
 
   updateBook(book, shelf) {
@@ -27,7 +23,7 @@ class Home extends Component {
   }
 
   render() {
-    const { books } = this.state
+    const { books } = this.props
     const currentlyReading = books.filter(
       cur => cur.shelf === "currentlyReading"
     )
@@ -55,6 +51,10 @@ class Home extends Component {
       </div>
     )
   }
+}
+
+Home.propTypes = {
+  books: PropTypes.array.isRequired
 }
 
 export default Home
