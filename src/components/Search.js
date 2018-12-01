@@ -28,17 +28,19 @@ class Search extends Component {
 
   makeQuery() {
     const { query, books } = this.state
-    search(query.trim()).then(res => {
-      if (res && res.error) {
-        this.setState({ results: [] })
-      } else if (res) {
-        res.forEach(cur => {
-          const book = books.filter(book => book.id === cur.id)
-          cur.shelf = book[0] ? book.shelf : null
-        })
-        this.setState({ results: res })
-      }
-    })
+    if (query.trim().length > 0) {
+      search(query.trim()).then(res => {
+        if (res && res.error) {
+          this.setState({ results: [] })
+        } else if (res) {
+          res.forEach(cur => {
+            const book = books.filter(book => book.id === cur.id)
+            cur.shelf = book[0] ? book.shelf : null
+          })
+          this.setState({ results: res })
+        }
+      })
+    }
   }
 
   updateBook(book, shelf) {
