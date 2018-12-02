@@ -21,7 +21,8 @@ class Search extends Component {
   }
 
   makeQuery() {
-    const { query, books } = this.state
+    let query = this.state.query;
+    let books = this.props.books;
     if (query.trim().length === 0) {
       this.setState({ results: [] })
     } else {
@@ -31,7 +32,7 @@ class Search extends Component {
         } else if (res) {
           res.forEach(cur => {
             const book = books.filter(book => book.id === cur.id)
-            cur.shelf = book[0] ? book.shelf : null
+            cur.shelf = book[0] ? book[0].shelf : null
           })
           this.setState({ results: res })
         }
